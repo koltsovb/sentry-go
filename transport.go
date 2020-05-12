@@ -414,6 +414,12 @@ func (t *HTTPSyncTransport) SendEvent(event *Event) {
 	if err != nil {
 		Logger.Printf("There was an issue with sending an event: %v", err)
 	}
+	
+	status := 0
+	if response != nil {
+		status = response.Status
+	}
+	fmt.Println("========= err %v  status %v", err, status)
 
 	if response != nil && response.StatusCode == http.StatusTooManyRequests {
 		t.disabledUntil = time.Now().Add(retryAfter(time.Now(), response))
