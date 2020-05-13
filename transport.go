@@ -314,6 +314,12 @@ func (t *HTTPTransport) worker() {
 			if err != nil {
 				Logger.Printf("There was an issue with sending an event: %v", err)
 			}
+			
+			status := 0
+			if response != nil {
+				status = response.StatusCode
+			}
+			fmt.Printf("=====+==== err %v  status %v ==\n", err, status)
 
 			if response != nil && response.StatusCode == http.StatusTooManyRequests {
 				deadline := time.Now().Add(retryAfter(time.Now(), response))
@@ -420,7 +426,7 @@ func (t *HTTPSyncTransport) SendEvent(event *Event) {
 	if response != nil {
 		status = response.StatusCode
 	}
-	fmt.Println("========= err %v  status %v", err, status)
+	fmt.Printf("=====+==== err %v  status %v ==\n", err, status)
 
 	if response != nil && response.StatusCode == http.StatusTooManyRequests {
 		t.disabledUntil = time.Now().Add(retryAfter(time.Now(), response))
