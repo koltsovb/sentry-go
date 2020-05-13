@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -417,7 +418,7 @@ func (t *HTTPSyncTransport) SendEvent(event *Event) {
 	
 	status := 0
 	if response != nil {
-		status = response.Status
+		status = response.StatusCode
 	}
 	fmt.Println("========= err %v  status %v", err, status)
 
